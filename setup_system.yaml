@@ -1,0 +1,33 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - git
+  - nodejs
+  - npm
+
+write_files:
+  - path: /etc/systemd/system/${base_name}.service
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=NodeJS app
+
+      [Service]
+      ExecStart=/usr/bin/node /var/www/${base_name}/${app_directory}/index.js
+      Restart=on-failure
+      DynamicUser=yes
+      Environment=NODE_ENV=production
+      WorkingDirectory=/var/www/${base_name}/${app_directory}
+
+      [Install]
+      WantedBy=multi-user.target    
+
+runcmd:
+  - mkdir -p /var/www/${base_name}
+  - git clone ${app_repository_url} /var/www/${base_name}
+  - npm install /var/www/${base_name}/${app_directory}
+  - systemctl enable ${base_name}.service
+  - systemctl start ${base_name}.service
