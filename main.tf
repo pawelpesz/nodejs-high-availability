@@ -5,7 +5,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     max_size          = var.autoscaling_max_size
     desired_capacity  = 1
     health_check_type = "ELB"
-    load_balancers    = [ aws_elb.loadbalancer.id ]
+    target_group_arns = [ aws_lb_target_group.target.arn ]
 
     vpc_zone_identifier  = aws_subnet.subnet[*].id
     launch_configuration = aws_launch_configuration.instance.name

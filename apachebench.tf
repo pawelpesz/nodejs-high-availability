@@ -3,7 +3,7 @@ resource "null_resource" "apachebench" {
         always_run = timestamp()
     }
     provisioner "local-exec" {
-        command = "ab -n ${var.test_requests} -c ${var.test_concurrency} -r -q http://${aws_elb.loadbalancer.dns_name}${var.app_test_url}"
+        command = "ab -n ${var.test_requests} -c ${var.test_concurrency} -r -q http://${aws_lb.loadbalancer.dns_name}${var.app_test_url}"
     }
     depends_on = [
         aws_autoscaling_group.autoscaling_group,

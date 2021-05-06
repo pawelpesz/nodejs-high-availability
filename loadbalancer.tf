@@ -20,22 +20,37 @@ resource "aws_security_group" "http" {
     }
 }
 
-resource "aws_elb" "loadbalancer" {
+resource "aws_lb" "loadbalancer" {
     name = "${var.base_name}-loadbalancer"
+    load_balancer_type = "application"
+    internal = false
     security_groups = [ aws_security_group.http.id ]
     subnets = aws_subnet.subnet[*].id
-    cross_zone_load_balancing = true
+}
+
+resource "aws_lb_target_group" "target" {
+    name     = "${var.base_name}-target"
+    protocol = "HTTP"
+    port     = 3000
+    vpc_id   = aws_vpc.vpc.id
     health_check {
         healthy_threshold   = 2
         unhealthy_threshold = 2
-        timeout             = 3
-        target              = "HTTP:${var.app_port}/"
-        interval            = 30
+        timeout  = 3
+        interval = 30
+        protocol = "HTTP"
+        port     = var.app_port
+        path     = "/"
+        matcher  = "200"
     }
-    listener {
-        instance_port     = var.app_port
-        instance_protocol = "http"
-        lb_port           = 80
-        lb_protocol       = "http"
+}
+
+resource "aws_lb_listener" "listener" {
+    load_balancer_arn = aws_lb.loadbalancer.arn
+    protocol          = "HTTP"
+    port              = 80
+    default_action {
+        type = "forward"
+        target_group_arn = aws_lb_target_group.target.arn
     }
 }
