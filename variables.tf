@@ -1,11 +1,3 @@
-variable "aws_access_key_id" {
-  type = string
-}
-
-variable "aws_secret_access_key" {
-  type = string
-}
-
 variable "ssh_ips" {
   type = list(string)
 }
@@ -32,7 +24,7 @@ variable "base_name" {
 
 variable "ubuntu" {
   type    = string
-  default = "ubuntu-focal-20.04-amd64-server"
+  default = "ubuntu-jammy-22.04-amd64-server"
 }
 
 variable "instance_type" {
@@ -74,6 +66,11 @@ variable "autoscaling_threshold" {
     low : 20,
     high : 60
   }
+}
+
+variable "apachebench_url" {
+  type    = string
+  default = "https://raw.githubusercontent.com/pawelpesz/nodejs-high-availability/main/ab"
 }
 
 variable "test_concurrency" {
