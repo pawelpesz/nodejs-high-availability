@@ -23,7 +23,7 @@ write_files:
       WorkingDirectory=/var/www/${base_name}/${app_directory}
 
       [Install]
-      WantedBy=multi-user.target    
+      WantedBy=multi-user.target
 
 runcmd:
   - mkdir -p /var/www/${base_name}
