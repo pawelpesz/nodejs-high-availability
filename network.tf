@@ -37,18 +37,10 @@ resource "aws_route_table_association" "subnet" {
   route_table_id = aws_vpc.vpc.default_route_table_id
 }
 
-resource "aws_security_group" "ssh_and_app" {
-  name        = "ssh_and_app"
-  description = "Allow SSH & HTTP@${var.app_port} to instances"
+resource "aws_security_group" "app" {
+  name        = "app"
+  description = "Allow HTTP@${var.app_port} to instances"
   vpc_id      = aws_vpc.vpc.id
-
-  ingress {
-    description = "SSH access"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = var.ssh_ips
-  }
 
   ingress {
     description = "HTTP@${var.app_port} access"

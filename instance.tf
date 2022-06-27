@@ -11,11 +11,6 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_key_pair" "key_pair" {
-  key_name   = lower(var.base_name)
-  public_key = var.ssh_pubkey
-}
-
 data "template_cloudinit_config" "config" {
   gzip          = true
   base64_encode = true
@@ -34,9 +29,9 @@ resource "aws_launch_configuration" "instance" {
   image_id                    = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   associate_public_ip_address = true
-  security_groups             = [aws_security_group.ssh_and_app.id]
-  key_name                    = aws_key_pair.key_pair.key_name
+  security_groups             = [aws_security_group.app.id]
   user_data_base64            = data.template_cloudinit_config.config.rendered
+  iam_instance_profile        = aws_iam_instance_profile.instance.name
   lifecycle {
     create_before_destroy = true
   }
