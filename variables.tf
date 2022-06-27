@@ -55,8 +55,8 @@ variable "autoscaling_threshold" {
     high = number
   })
   default = {
-    low : 20,
-    high : 60
+    low  = 20
+    high = 60
   }
 }
 
