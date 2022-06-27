@@ -1,11 +1,3 @@
-variable "ssh_ips" {
-  type = list(string)
-}
-
-variable "ssh_pubkey" {
-  type = string
-}
-
 # Variables with defaults below
 variable "region" {
   type    = string
