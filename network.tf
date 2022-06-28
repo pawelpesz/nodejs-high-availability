@@ -43,11 +43,11 @@ resource "aws_security_group" "app" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    description = "HTTP@${var.app_port} access"
-    from_port   = var.app_port
-    to_port     = var.app_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "HTTP@${var.app_port} access"
+    from_port       = var.app_port
+    to_port         = var.app_port
+    protocol        = "tcp"
+    security_groups = [aws_security_group.http.name]
   }
 
   egress {
