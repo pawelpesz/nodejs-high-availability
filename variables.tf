@@ -65,6 +65,11 @@ variable "apachebench_url" {
   default = "https://raw.githubusercontent.com/pawelpesz/nodejs-high-availability/main/ab"
 }
 
+variable "test_initial_delay" {
+  type    = string
+  default = "30s"
+}
+
 variable "test_concurrency" {
   type    = number
   default = 100
