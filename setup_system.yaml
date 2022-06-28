@@ -28,6 +28,7 @@ write_files:
 runcmd:
   - mkdir -p /var/www/${base_name}
   - git clone ${app_repository_url} /var/www/${base_name}
+  - cd /var/www/${base_name}
   - npm install /var/www/${base_name}/${app_directory}
   - systemctl enable ${base_name}.service
   - systemctl start ${base_name}.service
