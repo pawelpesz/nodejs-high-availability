@@ -11,7 +11,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-data "template_cloudinit_config" "config" {
+data "cloudinit_config" "config" {
   gzip          = true
   base64_encode = true
   part {
@@ -30,7 +30,7 @@ resource "aws_launch_configuration" "instance" {
   instance_type               = var.instance_type
   associate_public_ip_address = true
   security_groups             = [aws_security_group.app.id]
-  user_data_base64            = data.template_cloudinit_config.config.rendered
+  user_data_base64            = data.cloudinit_config.config.rendered
   iam_instance_profile        = aws_iam_instance_profile.instance.name
   lifecycle {
     create_before_destroy = true
