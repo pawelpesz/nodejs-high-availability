@@ -1,9 +1,9 @@
 terraform {
-  required_version = "~> 1.4"
+  required_version = "~> 1.5"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.62"
+      version = "~> 5.3"
     }
     cloudinit = {
       source  = "hashicorp/cloudinit"
@@ -12,10 +12,6 @@ terraform {
     null = {
       source  = "hashicorp/null"
       version = ">= 3.2"
-    }
-    local = {
-      source  = "hashicorp/local"
-      version = ">= 2.4"
     }
     time = {
       source  = "hashicorp/time"
